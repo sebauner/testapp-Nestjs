@@ -12,7 +12,7 @@ pipeline {
    stage('Building image') {
       steps{
           sh '''
-          docker build -t myNodeApp .
+          docker build -t mynodeapp .
              '''  
         }
     }
@@ -20,14 +20,14 @@ pipeline {
   
     stage('Run tests') {
       steps {
-        sh "docker run myNodeApp npm test"
+        sh "docker run mynodeapp npm test"
       }
     }
    stage('Deploy Image') {
       steps{
         sh '''
-        docker tag myNodeApp 127.0.0.1:5000/imgNodeApp
-        docker push 127.0.0.1:5000/imgNodeApp   
+        docker tag mynodeapp 127.0.0.1:5000/imgnodeapp
+        docker push 127.0.0.1:5000/imgnodeapp   
         '''
         }
       }
