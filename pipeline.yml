@@ -27,7 +27,7 @@ pipeline {
    stage('Deploy Image') {
       steps{
 
-        docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
+        docker.withRegistry("registry.uner.edu.ar:5000", DOCKER_CREDENTIALS) {
                         // Puedes realizar otras operaciones de Docker aquí
                         // Por ejemplo, construir y empujar la imagen
                         sh "docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test"
