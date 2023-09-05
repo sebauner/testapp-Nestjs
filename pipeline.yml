@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+
+  options {
+    timeout(time: 2, unit: 'MINUTES')
+  }
+
+  environment {
+    ARTIFACT_ID = "nodeApp:${env.BUILD_NUMBER}"
+  }
+   stages {
+   stage('Building image') {
+      steps{
+          sh '''
+          docker build -t myNodeApp .
+             '''  
+        }
+    }
+  
+  
+    stage('Run tests') {
+      steps {
+        sh "docker run myNodeApp npm test"
+      }
+    }
+   stage('Deploy Image') {
+      steps{
+        sh '''
+        docker tag myNodeApp 127.0.0.1:5000/imgNodeApp
+        docker push 127.0.0.1:5000/imgNodeApp   
+        '''
+        }
+      }
+    }
+}
