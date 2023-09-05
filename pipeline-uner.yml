@@ -1,0 +1,40 @@
+pipeline {
+  agent any
+
+  options {
+    timeout(time: 2, unit: 'MINUTES')
+  }
+
+  environment {
+    ARTIFACT_ID = "nodeApp:${env.BUILD_NUMBER}"
+    DOCKER_CREDENTIALS = credentials('2e2aa613-4045-4a9f-9f82-223d95baa19c') 
+  }
+   stages {
+   stage('Building image') {
+      steps{
+          sh '''
+          docker build -t mynodeapp .
+             '''  
+        }
+    }
+  
+  
+    stage('Run tests') {
+      steps {
+        sh "docker run mynodeapp npm test"
+      }
+    }
+   stage('Deploy Image') {
+
+    docker.withRegistry('registry.uner.edu.ar', '2e2aa613-4045-4a9f-9f82-223d95baa19c	') {
+
+        def customImage = docker.build("myimage:${env.BUILD_ID}")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+    }
+      
+
+      }
+    }
+}
