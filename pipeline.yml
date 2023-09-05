@@ -26,6 +26,7 @@ pipeline {
    stage('Deploy Image') {
       steps{
         sh '''
+        echo "admin" | docker login -u "admin" --password-stdin registry.uner.edu.ar 
         docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test
         docker push registry.uner.edu.ar:5000/nestjsapp:test   
         '''
