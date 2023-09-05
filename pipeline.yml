@@ -26,8 +26,8 @@ pipeline {
    stage('Deploy Image') {
       steps{
         sh '''
-        docker tag mynodeapp 127.0.0.1:5000/nestjsapp:test
-        docker push 127.0.0.1:5000/nestjsapp:test   
+        docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test
+        docker push registry.uner.edu.ar:5000/nestjsapp:test   
         '''
         }
       }
