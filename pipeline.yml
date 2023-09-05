@@ -7,7 +7,11 @@ pipeline {
 
   environment {
     ARTIFACT_ID = "nodeApp:${env.BUILD_NUMBER}"
+    DOCKER_REGISTRY = 'registry.uner.edu.ar:5000' // Cambia esto a la URL de tu registro privado
+    DOCKER_CREDENTIALS = credentials('2e2aa613-4045-4a9f-9f82-223d95baa19c') // Reemplaza con el ID de tus credenciales
+    DOCKER_IMAGE = 'nestjsapp:test1' // Cambia esto a tu imagen Docker    
   }
+
    stages {
    stage('Building image') {
       steps{
@@ -23,14 +27,19 @@ pipeline {
         sh "docker run mynodeapp npm test"
       }
     }
+
    stage('Deploy Image') {
       steps{
-        sh '''
-        echo "admin" | docker login -u "admin" --password-stdin registry.uner.edu.ar 
-        docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test
-        docker push registry.uner.edu.ar:5000/nestjsapp:test   
-        '''
+        docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
+        // Puedes realizar otras operaciones de Docker aquí
+        // Por ejemplo, construir y empujar la imagen
+        sh "docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test"
+        sh "docker push ${DOCKER_IMAGE}"   
+             
+        
         }
       }
     }
+
+  }
 }
