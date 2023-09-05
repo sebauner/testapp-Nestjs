@@ -7,6 +7,7 @@ pipeline {
 
   environment {
     ARTIFACT_ID = "nodeApp:${env.BUILD_NUMBER}"
+    DOCKER_CREDENTIALS = credentials('2e2aa613-4045-4a9f-9f82-223d95baa19c') 
   }
    stages {
    stage('Building image') {
@@ -26,6 +27,7 @@ pipeline {
    stage('Deploy Image') {
       steps{
         sh '''
+        docker login ${DOCKER_CREDENTIALS} registry.uner.edu.ar:5000
         docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test
         docker push registry.uner.edu.ar:5000/nestjsapp:test   
         '''
