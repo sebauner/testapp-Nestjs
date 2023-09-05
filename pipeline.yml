@@ -26,11 +26,14 @@ pipeline {
     }
    stage('Deploy Image') {
       steps{
-        sh '''
-        docker login ${DOCKER_CREDENTIALS} registry.uner.edu.ar:5000
-        docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test
-        docker push registry.uner.edu.ar:5000/nestjsapp:test   
-        '''
+
+        docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
+                        // Puedes realizar otras operaciones de Docker aquí
+                        // Por ejemplo, construir y empujar la imagen
+                        sh "docker tag mynodeapp registry.uner.edu.ar:5000/nestjsapp:test"
+                        sh "docker push registry.uner.edu.ar:5000/nestjsapp:test"
+        }        
+
         }
       }
     }
