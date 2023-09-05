@@ -24,8 +24,8 @@ describe('OperacionesService', () => {
     expect(service.division(100,5)).toBe(20); 
   });
 
-  it('Debe devolver un error por la división entre 100 y 0, Sintax Error', () => { 
-    expect(service.division(100,0)).toBe('Sintax Error'); 
+  it('Debe devolver un error por la división entre 100 y 0, Sintax Error. No se puede dividir por 0', () => { 
+    expect(service.division(100,0)).toBe('Sintax Error. No se puede dividir por 0'); 
   });
 
   it('Debe devolver el resultado de la suma entre 3 y 5, osea 8', () => { 
