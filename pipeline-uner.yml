@@ -25,7 +25,7 @@ pipeline {
       }
     }
    stage('Deploy Image') {
-
+      steps {
     docker.withRegistry('registry.uner.edu.ar', '2e2aa613-4045-4a9f-9f82-223d95baa19c	') {
 
         def customImage = docker.build("myimage:${env.BUILD_ID}")
@@ -34,7 +34,7 @@ pipeline {
         customImage.push()
     }
       
-
+}
       }
     }
 }
